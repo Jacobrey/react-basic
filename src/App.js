@@ -1,17 +1,17 @@
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
-import Layout from "./pages/Layout";
-import Login from "./pages/Login";
+import { BrowserRouter as Router } from 'react-router-dom'
+// import Layout from "./pages/Layout";
+import Login from "pages/Login";
 function App() {
   return (
     <Router>
       <div className="App">
-        <Link to="/login">登录</Link>
-        <Link to="/home">首页</Link>
+        <Login></Login>
         {/* 配置路由规则 */}
-        <Routes>
+        {/* <Routes>
           <Route path="/home" element={<Layout></Layout>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
-        </Routes>
+        </Routes> */}
+
       </div>
     </Router>
   );
