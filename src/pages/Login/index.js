@@ -1,26 +1,31 @@
 import React, { Component } from 'react'
 import "./index.scss"
 import logo from "assets/logo.png"
-import { Card, Button, Checkbox, Form, Input } from 'antd';
+import { Card, Button, Checkbox, Form, Input, message } from 'antd';
+import { login } from 'api/user';
 
 export default class Login extends Component {
+    state = {
+        // 加载状态
+        loading: false
+    }
+
     render() {
-        // const onFinish = (values) => {
-        //     console.log(values);
-        // }
         return (
             <div className='login'>
                 <Card className='login-container' >
                     <img className='login-logo' src={logo} alt="" />
                     {/* 表单 */}
                     <Form
+                        size='large'
                         autoComplete='off'
+                        validateTrigger={["onChange", "onBlur"]}
                         initialValues={{
-                            mobile: "13911111111",
-                            code: 246810,
+                            mobile: "13811111111",
+                            code: "",
                             agree: true
                         }}
-                    // onFinish={this.onFinish}
+                        onFinish={this.onFinish}
                     >
                         <Form.Item
                             name="mobile"
@@ -73,7 +78,7 @@ export default class Login extends Component {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" block>
+                            <Button type="primary" htmlType="submit" loading={this.state.loading} block>
                                 登录
                             </Button>
                         </Form.Item>
@@ -81,5 +86,32 @@ export default class Login extends Component {
                 </Card>
             </div>
         )
+    }
+
+    onFinish = async ({ mobile, code }) => {
+        this.setState({
+            loading: true
+        })
+        try {
+            // console.log(mobile, code);
+            const res = await login(mobile, code)
+            console.log(res);
+
+            message.success("登录成功！", 1, () => {
+                // 登录成功
+                // 1、保存token
+                localStorage.setItem("token", res.data.token)
+                // 2、跳转到 /home
+                this.props.history.push("/home")
+            })
+        } catch (error) {
+            console.log(error);
+            message.error(error.response.data.message, 1, () => {
+                this.setState({
+                    loading: false
+                })
+            })
+        }
+
     }
 }
