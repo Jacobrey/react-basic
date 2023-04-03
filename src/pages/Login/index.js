@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import "./index.scss"
+import style from "./index.module.scss"
 import logo from "assets/logo.png"
 import { Card, Button, Checkbox, Form, Input, message } from 'antd';
 import { login } from 'api/user';
+import { setToken } from 'utils/storage';
 
 export default class Login extends Component {
     state = {
@@ -12,7 +13,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className='login'>
+            <div className={style.login}>
                 <Card className='login-container' >
                     <img className='login-logo' src={logo} alt="" />
                     {/* 表单 */}
@@ -95,17 +96,18 @@ export default class Login extends Component {
         try {
             // console.log(mobile, code);
             const res = await login(mobile, code)
-            console.log(res);
-
+            // console.log(res);
+            // 提示消息
             message.success("登录成功！", 1, () => {
                 // 登录成功
                 // 1、保存token
-                localStorage.setItem("token", res.data.token)
+                // localStorage.setItem("token", res.data.token)
+                setToken(res.data.token)
                 // 2、跳转到 /home
-                this.props.history.push("/home")
+                window.location.href = 'http://localhost:3000/home'
             })
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             message.error(error.response.data.message, 1, () => {
                 this.setState({
                     loading: false
