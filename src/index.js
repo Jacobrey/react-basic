@@ -5,12 +5,19 @@ import 'antd/dist/reset.css'
 // 自己的全局样式
 import './index.css';
 import App from './App';
+// 国际化配置
+import { ConfigProvider } from "antd"
+// import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+import locale from 'antd/locale/zh_CN';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <ConfigProvider locale={locale}>
+    <App />
+  </ConfigProvider>
 
-  <App />
 
 );
 

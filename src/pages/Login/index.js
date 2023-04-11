@@ -22,8 +22,8 @@ export default class Login extends Component {
                         autoComplete='off'
                         validateTrigger={["onChange", "onBlur"]}
                         initialValues={{
-                            mobile: "13811111111",
-                            code: "",
+                            mobile: "13911111111",
+                            code: "246810",
                             agree: true
                         }}
                         onFinish={this.onFinish}
